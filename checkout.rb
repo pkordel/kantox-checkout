@@ -10,6 +10,7 @@ Product  = Struct.new(:sku, :name, :price)
 LineItem = Struct.new(:sku, :name, :price, :quantity)
 Order    = Struct.new(:items, :subtotal, :discount, :total, keyword_init: true) do
   require "terminal-table"
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def print_receipt
     table = Terminal::Table.new do |t|
       t.headings = %w[Item Price Quantity]
@@ -25,6 +26,7 @@ Order    = Struct.new(:items, :subtotal, :discount, :total, keyword_init: true) 
     end
     table.to_s
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end
 
 class Basket
