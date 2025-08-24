@@ -7,13 +7,13 @@ class DiscountRule
     @sku = sku
   end
 
-  def discount_cents(item)
+  def discount_cents(item:)
     raise NotImplementedError, "Subclasses must implement the discount_cents method"
   end
 end
 
 class BuyOneGetOneFreeDiscount < DiscountRule
-  def discount_cents(item)
+  def discount_cents(item:)
     return 0 unless item.sku == sku
 
     free_units = item.quantity / 2
@@ -30,7 +30,7 @@ class VolumeFixedPriceDiscount < DiscountRule
     @minimum_quantity = minimum_quantity
   end
 
-  def discount_cents(item)
+  def discount_cents(item:)
     return 0 unless item.sku == sku && item.quantity >= minimum_quantity
 
     original_total = item.price * item.quantity
@@ -49,7 +49,7 @@ class VolumeFractionDiscount < DiscountRule
     @minimum_quantity = minimum_quantity
   end
 
-  def discount_cents(item)
+  def discount_cents(item:)
     return 0 unless item.sku == sku && item.quantity >= minimum_quantity
 
     original_total   = item.price * item.quantity
@@ -70,7 +70,15 @@ class DiscountEngine
   private
 
   def load_rules(conf)
-    YAML.safe_load_file(conf)["rules"].map do |rule|
+    return [] unless File.exist?(conf)
+
+    data = YAML.safe_load_file(conf)
+
+    unless data.is_a?(Hash) && data["rules"].is_a?(Array)
+      raise "Invalid configuration format"
+    end
+
+    data["rules"].filter_map do |rule|
       next unless rule["active"]
 
       case rule["type"]
@@ -91,6 +99,6 @@ class DiscountEngine
           fixed_price: rule["fixed_price"]
         )
       end
-    end.compact
+    end
   end
 end

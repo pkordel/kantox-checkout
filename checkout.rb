@@ -1,6 +1,7 @@
-module Money
-  module_function
-  def fmt(cents, currency_symbol: "£") = format("#{currency_symbol}%.2f", cents.to_i / 100.0)
+class Money
+  def self.fmt(cents: 0, currency_symbol: "£")
+    format("#{currency_symbol}%.2f", cents.to_i / 100.0)
+  end
 end
 
 Product  = Struct.new(:sku, :name, :price)
@@ -11,12 +12,12 @@ Order    = Struct.new(:items, :subtotal, :discount, :total, keyword_init: true) 
     table = Terminal::Table.new do |t|
       t.headings = ["Item", "Price", "Quantity"]
       items.each do |item|
-        t.add_row([item.name, Money.fmt(item.price), item.quantity])
+        t.add_row([item.name, Money.fmt(cents: item.price), item.quantity])
       end
       t.add_separator
-      t.add_row(["Subtotal", Money.fmt(subtotal), ""])
-      t.add_row(["Discount", Money.fmt(discount), ""])
-      t.add_row(["Total",    Money.fmt(total), ""])
+      t.add_row(["Subtotal", Money.fmt(cents: subtotal), ""])
+      t.add_row(["Discount", Money.fmt(cents: discount), ""])
+      t.add_row(["Total",    Money.fmt(cents: total), ""])
       t.align_column(1, :right)
       t.align_column(2, :right)
     end
@@ -32,7 +33,9 @@ class Basket
   end
 
   def add(item) = items << item
+    
   def find_item(sku) = items.find { |item| item.sku == sku }
+  
   def total_price_cents = items.sum { |item| item.price * item.quantity }
 end
 
@@ -58,7 +61,7 @@ class Checkout
 
   def discount_cents
     basket.items.sum do |item|
-      pricing_rules.sum { |rule| rule.discount_cents(item) }
+      pricing_rules.sum { |rule| rule.discount_cents(item: item) }
     end
   end
 
