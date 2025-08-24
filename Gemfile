@@ -2,8 +2,10 @@
 
 source "https://rubygems.org"
 
+gem "debug"
+gem "dry-validation"
 gem "minitest", "~> 5.25"
 gem "minitest-reporters"
-gem "dry-validation"
+gem "rubocop", require: false
+gem "rubocop-minitest", require: false
 gem "terminal-table"
-gem "debug"
