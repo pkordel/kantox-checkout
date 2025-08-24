@@ -1,5 +1,8 @@
 # .rubocop.yml
 require:
   - rubocop-minitest
+  - rubocop-performance
 Style/StringLiterals:
+  Enabled: false
+Style/Documentation:
   Enabled: false
