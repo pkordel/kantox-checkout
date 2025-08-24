@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DiscountRule
   attr_reader :sku
 
@@ -104,11 +106,9 @@ class DiscountRuleFactory
     end
 
     rule(:fraction) do
-      begin
-        Rational(value)
-      rescue ArgumentError
-        key.failure('must be a valid fraction (e.g., "2/3")')
-      end
+      Rational(value)
+    rescue ArgumentError
+      key.failure('must be a valid fraction (e.g., "2/3")')
     end
   end
 
@@ -119,9 +119,9 @@ class DiscountRuleFactory
         create_rule_object(validated_rule)
       end.compact
     end
-  
+
     private
-  
+
     def validate_rule(rule_data)
       case rule_data["type"]
       when "buy_one_get_one_free"
@@ -133,14 +133,12 @@ class DiscountRuleFactory
       else
         raise "Unknown rule type: #{rule_data['type']}"
       end
-  
-      if result.failure?
-        raise "Invalid rule configuration: #{result.errors.to_h}"
-      end
-  
+
+      raise "Invalid rule configuration: #{result.errors.to_h}" if result.failure?
+
       result.to_h
     end
-  
+
     def create_rule_object(rule)
       case rule[:type]
       when "buy_one_get_one_free"

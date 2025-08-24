@@ -1,3 +1,5 @@
 # .rubocop.yml
+require:
+  - rubocop-minitest
 Style/StringLiterals:
   Enabled: false

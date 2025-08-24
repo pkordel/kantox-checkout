@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Money
   def self.fmt(cents: 0, currency_symbol: "£")
     format("#{currency_symbol}%.2f", cents.to_i / 100.0)
@@ -10,7 +12,7 @@ Order    = Struct.new(:items, :subtotal, :discount, :total, keyword_init: true) 
   require "terminal-table"
   def print_receipt
     table = Terminal::Table.new do |t|
-      t.headings = ["Item", "Price", "Quantity"]
+      t.headings = %w[Item Price Quantity]
       items.each do |item|
         t.add_row([item.name, Money.fmt(cents: item.price), item.quantity])
       end
@@ -33,9 +35,9 @@ class Basket
   end
 
   def add(item) = items << item
-    
+
   def find_item(sku) = items.find { |item| item.sku == sku }
-  
+
   def total_price_cents = items.sum { |item| item.price * item.quantity }
 end
 
@@ -54,7 +56,7 @@ class Checkout
       basket.add(LineItem.new(item.sku, item.name, item.price, 1))
     end
   end
-  
+
   def total = subtotal - discount_cents
 
   def subtotal = basket.total_price_cents
@@ -67,10 +69,10 @@ class Checkout
 
   def finalize_order
     order = Order.new(
-      items:    basket.items,
+      items: basket.items,
       subtotal: subtotal,
       discount: discount_cents,
-      total:    total
+      total: total
     )
     order.print_receipt
   end

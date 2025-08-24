@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "yaml"
 
 class Config
@@ -20,9 +22,9 @@ class Config
     private
 
     def validate_structure(data)
-      unless data.is_a?(Hash) && data["rules"].is_a?(Array)
-        raise "Invalid configuration format: expected 'rules' array"
-      end
+      return if data.is_a?(Hash) && data["rules"].is_a?(Array)
+
+      raise "Invalid configuration format: expected 'rules' array"
     end
   end
 end

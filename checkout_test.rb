@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use!
 
-require_relative "./checkout.rb"
-require_relative "./discount_engine.rb"
+require_relative "./checkout"
+require_relative "./discount_engine"
 
 class CheckoutTest < Minitest::Test
   def setup
@@ -16,7 +18,7 @@ class CheckoutTest < Minitest::Test
 
   def test_scanning_one_item
     @checkout.scan(@green_tea)
-    assert_equal "£3.11", Money.fmt(cents:@checkout.total)
+    assert_equal "£3.11", Money.fmt(cents: @checkout.total)
   end
 
   def test_scanning_two_items_no_discount
