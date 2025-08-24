@@ -1,6 +1,6 @@
 module Money
   module_function
-  def fmt(cents) = format("£%.2f", cents.to_i / 100.0)
+  def fmt(cents, currency_symbol: "£") = format("#{currency_symbol}%.2f", cents.to_i / 100.0)
 end
 
 Product  = Struct.new(:sku, :name, :price)
@@ -24,59 +24,6 @@ Order    = Struct.new(:items, :subtotal, :discount, :total, keyword_init: true) 
   end
 end
 
-class BuyOneGetOneFreeDiscount
-  attr_reader :sku
-
-  def initialize(sku:)
-    @sku = sku
-  end
-
-  def discount_cents(item)
-    return 0 unless item.sku == sku
-
-    free_units = item.quantity / 2
-    free_units * item.price
-  end
-end
-
-class VolumeFixedPriceDiscount
-  attr_reader :sku, :fixed_price, :minimum_quantity
-
-  def initialize(sku:, fixed_price:, minimum_quantity:)
-    @sku              = sku
-    @fixed_price      = fixed_price
-    @minimum_quantity = minimum_quantity
-  end
-
-  def discount_cents(item)
-    return 0 unless item.sku == sku && item.quantity >= minimum_quantity
-
-    original_total = item.price * item.quantity
-    fixed_total    = fixed_price * item.quantity
-
-    [original_total - fixed_total, 0].max
-  end
-end
-
-class VolumePercentageDiscount
-  attr_reader :sku, :minimum_quantity
-
-  def initialize(sku:, minimum_quantity:)
-    @sku              = sku
-    @minimum_quantity = minimum_quantity
-  end
-
-  def discount_cents(item)
-    return 0 unless item.sku == sku && item.quantity >= minimum_quantity
-
-    original_total   = item.price * item.quantity
-    discounted_unit  = ((item.price * 2.0) / 3.0)
-    discounted_total = discounted_unit * item.quantity
-
-    [original_total - discounted_total, 0].max
-  end
-end
-
 class Basket
   attr_accessor :items
 
@@ -85,9 +32,7 @@ class Basket
   end
 
   def add(item) = items << item
-
   def find_item(sku) = items.find { |item| item.sku == sku }
-
   def total_price_cents = items.sum { |item| item.price * item.quantity }
 end
 

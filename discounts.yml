@@ -1,0 +1,17 @@
+rules:
+  - id: bogo-green-tea
+    type: buy_one_get_one_free
+    sku: GR1
+    active: true
+  - id: fractional-coffee
+    type: fractional_percentage
+    sku: CF1
+    active: true
+    minimum_quantity: 3
+    fraction: "2/3"
+  - id: fixed-price-strawberries
+    type: volume_fixed_price
+    sku: SR1
+    active: true
+    minimum_quantity: 3
+    fixed_price: 450

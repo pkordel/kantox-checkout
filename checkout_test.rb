@@ -3,15 +3,12 @@ require "minitest/reporters"
 Minitest::Reporters.use!
 
 require_relative "./checkout.rb"
+require_relative "./discount_engine.rb"
 
 class CheckoutTest < Minitest::Test
   def setup
-    pricing_rules = [
-      BuyOneGetOneFreeDiscount.new(sku: "GR1"),
-      VolumePercentageDiscount.new(sku: "CF1", minimum_quantity: 3),
-      VolumeFixedPriceDiscount.new(sku: "SR1", minimum_quantity: 3, fixed_price: 450)
-    ]
-    @checkout     = Checkout.new(pricing_rules)
+    discount_engine = DiscountEngine.new(conf: "discounts.yml")
+    @checkout     = Checkout.new(discount_engine.rules)
     @green_tea    = Product.new("GR1", "Green Tea", 311)
     @strawberries = Product.new("SR1", "Strawberries", 500)
     @coffee       = Product.new("CF1", "Coffee", 1123)
