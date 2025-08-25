@@ -8,10 +8,6 @@ gem "minitest", "~> 5.25"
 gem "minitest-reporters"
 
 gem "rubocop", require: false
-gem "rubocop-minitest", require: false
 gem "rubocop-performance", require: false
-
-gem "bundler-audit", require: false
-gem "reek", require: false
 
 gem "terminal-table"
