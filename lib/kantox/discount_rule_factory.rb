@@ -54,7 +54,7 @@ module Kantox
       return 0 unless item.sku == sku && item.quantity >= minimum_quantity
 
       original_total   = item.price * item.quantity
-      discounted_unit  = (item.price * fraction)
+      discounted_unit  = item.price * fraction
       discounted_total = discounted_unit * item.quantity
 
       [original_total - discounted_total, 0].max
