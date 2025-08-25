@@ -1,0 +1,16 @@
+rules:
+  - type: buy_one_get_one_free
+    sku: GR1
+    active: true
+
+  - type: volume_fractional_discount
+    sku: CF1
+    active: true
+    minimum_quantity: 3
+    fraction: "2/3"
+
+  - type: volume_fixed_price_discount
+    sku: SR1
+    active: true
+    minimum_quantity: 3
+    fixed_price: 450
