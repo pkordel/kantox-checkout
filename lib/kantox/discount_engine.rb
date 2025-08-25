@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "config"
-require_relative "discount_rule_factory"
-
 module Kantox
   class DiscountEngine
     attr_reader :rules
