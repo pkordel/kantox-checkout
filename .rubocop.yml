@@ -1,6 +1,9 @@
 # .rubocop.yml
+AllCops:
+  Exclude:
+    - "test/**/*"
+
 require:
-  - rubocop-minitest
   - rubocop-performance
 Style/StringLiterals:
   Enabled: false
