@@ -30,7 +30,7 @@ Order    = Struct.new(:items, :subtotal, :discount, :total, keyword_init: true) 
 end
 
 class Basket
-  attr_accessor :items
+  attr_reader :items
 
   def initialize
     @items = []

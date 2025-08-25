@@ -7,7 +7,7 @@ class DiscountRule
     @sku = sku
   end
 
-  def discount_cents(item:)
+  def discount_cents
     raise NotImplementedError, "Subclasses must implement the discount_cents method"
   end
 end

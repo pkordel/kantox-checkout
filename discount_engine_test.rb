@@ -9,11 +9,12 @@ require_relative "./discount_engine"
 class DiscountEngineTest < Minitest::Test
   def setup
     @discount_engine = DiscountEngine.new(conf: "discounts.yml")
+    @rules = @discount_engine.rules
   end
 
   def test_rules_loading
-    assert_instance_of Array, @discount_engine.rules
-    assert(@discount_engine.rules.all? { |rule| rule.is_a?(DiscountRule) })
-    assert_equal 3, @discount_engine.rules.size
+    assert_instance_of Array, @rules
+    assert(@rules.all? { |rule| rule.is_a?(DiscountRule) })
+    assert_equal 3, @rules.size
   end
 end
