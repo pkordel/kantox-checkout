@@ -1,6 +1,6 @@
 # Kantox Checkout System 🛒
 
-A flexible, production-ready checkout system for a supermarket chain, implementing various discount rules with enterprise-grade architecture.
+A flexible checkout system for a supermarket chain, implementing various discount rules with enterprise-grade architecture.
 
 [![Ruby](https://img.shields.io/badge/Ruby-3.x-red.svg)](https://ruby-lang.org/)
 [![Tests](https://img.shields.io/badge/Tests-22%20passing-brightgreen.svg)](https://minitest.org/)
